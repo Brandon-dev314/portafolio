@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Contacto — Portafolio{% endblock %}
+
+{% block content %}
+  <h1 class="text-3xl font-semibold mb-6">Contacto</h1>
+
+  <form method="post" class="space-y-4 max-w-lg">
+    {% csrf_token %}
+
+    <div>
+      <label class="block text-sm mb-1">Nombre</label>
+      {{ form.name }}
+      {% if form.name.errors %}
+        <p class="text-sm text-red-400 mt-1">{{ form.name.errors.0 }}</p>
+      {% endif %}
+    </div>
+
+    <div>
+      <label class="block text-sm mb-1">Correo</label>
+      {{ form.email }}
+      {% if form.email.errors %}
+        <p class="text-sm text-red-400 mt-1">{{ form.email.errors.0 }}</p>
+      {% endif %}
+    </div>
+
+    <div>
+      <label class="block text-sm mb-1">Mensaje</label>
+      {{ form.message }}
+      {% if form.message.errors %}
+        <p class="text-sm text-red-400 mt-1">{{ form.message.errors.0 }}</p>
+      {% endif %}
+    </div>
+
+    <button class="px-4 py-2 rounded bg-gray-100 text-gray-900 hover:bg-white transition">
+      Enviar
+    </button>
+  </form>
+{% endblock %}

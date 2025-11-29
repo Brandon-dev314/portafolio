@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block title %}Experiencia — Portafolio{% endblock %}
+
+{% block content %}
+  {% include 'portfolio/partials/_experience_list.html' with experiences=experiences %}
+{% endblock %}

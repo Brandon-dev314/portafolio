@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% load static split_filters %}
+{% block title %}Proyectos — Portafolio{% endblock %}
+
+{% block content %}
+
+  <section id="about" class="mb-10">
+    <div class="grid md:grid-cols-[96px_1fr] gap-4 items-center">
+      <img
+        src="{% static 'img/avatar.jpg' %}"
+        alt="Foto de perfil"
+        class="w-24 h-24 rounded-full border object-cover"
+        onerror="this.style.display='none';"
+      />
+      <div>
+        <h1 class="text-2xl font-semibold">Brandon Eroza</h1>
+        <p class="text-white mt-1">
+          Desarrollador Python & Ciencia de Datos. Construyo dashboards, APIs y apps
+          enfocadas en valor de negocio. Interesado en ML, Django y productos data-driven.
+          Me considero una persona proactiva, autodidacta y con ganas de aprender siempre.
+        </p>
+        <div class="mt-3 flex flex-wrap items-center gap-3">
+          <!-- CV (coloca un PDF en static/cv/cv.pdf) -->
+          <a href="{% static 'cv/Brandon Enrique Torres.pdf' %}" target="_blank" rel="noopener"
+             class="px-3 py-1.5 rounded bg-gray-900 text-white text-sm">Descargar CV</a>
+          <a href="https://github.com/Brandon-dev314" target="_blank" rel="noopener"
+             class="px-3 py-1.5 rounded border text-sm">GitHub</a>
+          <a href="https://www.linkedin.com/in/brandon-torres-b1678638b/" target="_blank" rel="noopener"
+             class="px-3 py-1.5 rounded border text-sm">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience" class="mb-14">
+    <h2 class="text-3xl font-semibold mb-6 tracking-wide">Experiencia</h2>
+
+    <ol class="relative border-s border-white/10 space-y-8">
+      {% for e in experiences %}
+        <li class="ms-8">
+          <span class="absolute -start-3.5 mt-2 h-3.5 w-3.5 rounded-full bg-white/40"></span>
+
+          <div class="flex items-start gap-5">
+            {% if e.company_logo %}
+              <img src="{{ e.company_logo.url }}" alt="{{ e.company }}"
+                  class="w-14 h-14 rounded-lg border border-white/10 object-cover">
+            {% else %}
+              <div class="w-14 h-14 rounded-lg border border-white/10 bg-white/5"></div>
+            {% endif %}
+
+            <div class="leading-relaxed">
+              <div class="flex flex-wrap items-center gap-3">
+                <h3 class="text-2xl font-semibold tracking-wide">
+                  {{ e.role }} ·
+                  {% if e.company_url %}
+                    <a href="{{ e.company_url }}" target="_blank" rel="noopener" class="underline">{{ e.company }}</a>
+                  {% else %}{{ e.company }}{% endif %}
+                </h3>
+                {% if e.location %}
+                  <span class="text-sm px-2.5 py-1 border border-white/10 rounded">{{ e.location }}</span>
+                {% endif %}
+              </div>
+
+              <div class="text-base text-gray-300 mt-1">
+                {{ e.start_date|date:"M Y" }} — {% if e.is_current %}Actual{% else %}{{ e.end_date|date:"M Y" }}{% endif %}
+              </div>
+
+              {% if e.summary %}
+                <p class="mt-3 text-base text-gray-200 leading-7">{{ e.summary }}</p>
+              {% endif %}
+
+              {% if e.tech_list %}
+                <div class="mt-3 flex flex-wrap gap-2">
+                  {% for tech in e.tech_list %}
+                    <span class="text-sm bg-gray-800 text-gray-200 px-2.5 py-1 rounded">#{{ tech }}</span>
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </li>
+      {% empty %}
+        <li class="ms-8 text-gray-400">Añade tu experiencia en el admin.</li>
+      {% endfor %}
+    </ol>
+  </section>
+
+  <section id="projects" class="mb-16">
+    <h2 class="text-3xl font-semibold mb-6 tracking-wide flex items-center gap-2">
+      <span class="text-2xl">💻</span> Proyectos
+    </h2>
+
+    <div class="flex flex-wrap items-center gap-2 mb-8">
+      <a href="/"
+        class="px-3 py-1.5 rounded border border-white/10 {% if not active_tag %}bg-white/10 text-white{% else %}text-gray-300{% endif %}">
+        Todos
+      </a>
+      {% for t in tags %}
+        <a href="/?tag={{ t.slug }}"
+          class="px-3 py-1.5 rounded border border-white/10 {% if active_tag and t == active_tag %}bg-white/10 text-white{% else %}text-gray-300{% endif %}">
+          #{{ t.name }}
+        </a>
+      {% endfor %}
+    </div>
+
+    <div class="space-y-10">
+      {% for p in projects %}
+      <article class="flex flex-col lg:flex-row bg-white/5 text-white border border-white/10 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition">
+        {% if p.cover %}
+          <div class="lg:w-2/5">
+            <img src="{{ p.cover.url }}" alt="{{ p.title }}"
+                class="w-full h-72 lg:h-full object-cover">
+          </div>
+        {% endif %}
+        <div class="lg:w-3/5 p-8 flex flex-col justify-center gap-4">
+          <h3 class="text-2xl font-semibold tracking-wide">{{ p.title }}</h3>
+          <p class="text-base text-gray-300 leading-7">{{ p.short_description }}</p>
+
+          <div class="flex flex-wrap gap-2">
+            {% for t in p.tags.all %}
+              <span class="text-sm bg-gray-800 text-gray-200 px-2.5 py-1 rounded">#{{ t.name }}</span>
+            {% endfor %}
+          </div>
+
+          <div class="flex flex-wrap gap-3 pt-1">
+            {% if p.repo_url %}
+              <a href="{{ p.repo_url }}" target="_blank" rel="noopener"
+                class="text-base px-4 py-2 border border-white/15 rounded-lg hover:bg-white/10 transition">Code</a>
+            {% endif %}
+            {% if p.demo_url %}
+              <a href="{{ p.demo_url }}" target="_blank" rel="noopener"
+                class="text-base px-4 py-2 border border-white/15 rounded-lg hover:bg-white/10 transition">Preview</a>
+            {% endif %}
+            <a href="{% url 'project_detail' p.slug %}"
+              class="text-base px-4 py-2 border border-white/15 rounded-lg hover:bg-white/10 transition">Detalles</a>
+          </div>
+        </div>
+      </article>
+      {% empty %}
+        <p class="text-gray-400">No hay proyectos aún.</p>
+      {% endfor %}
+    </div>
+  </section>
+{% endblock %}

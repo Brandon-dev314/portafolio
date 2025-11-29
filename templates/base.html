@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>{% block title %}Portafolio{% endblock %}</title>
+</head>
+<body class="bg-gray-950 text-gray-100">
+  <header class="sticky top-0 z-40 border-b border-gray-800 bg-gray-950/80 backdrop-blur">
+    <div class="mx-auto max-w-5xl px-4 py-4 flex items-center justify-between">
+      <a href="/" class="font-semibold text-white">MiPortafolio.dev</a>
+      <nav class="space-x-4 text-sm">
+        <a href="/#about" class="hover:underline text-gray-300 hover:text-white">Sobre mí</a>
+        <a href="/#projects" class="hover:underline text-gray-300 hover:text-white">Proyectos</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-5xl px-4 py-8">
+    {% if messages %}
+      <div class="space-y-2 mb-6">
+        {% for m in messages %}
+          {% if "success" in m.tags %}
+            <div class="p-3 rounded border border-emerald-500/30 bg-emerald-900/20 text-emerald-200">{{ m }}</div>
+          {% elif "error" in m.tags or "danger" in m.tags %}
+            <div class="p-3 rounded border border-red-500/30 bg-red-900/20 text-red-200">{{ m }}</div>
+          {% elif "warning" in m.tags %}
+            <div class="p-3 rounded border border-yellow-500/30 bg-yellow-900/20 text-yellow-200">{{ m }}</div>
+          {% else %}
+            <div class="p-3 rounded border border-sky-500/30 bg-sky-900/20 text-sky-200">{{ m }}</div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="mx-auto max-w-5xl px-4 py-10 text-sm text-gray-400 border-t border-gray-800">
+    © {% now 'Y' %} Tu Nombre. Construido con Django.
+  </footer>
+</body>
+</html>
