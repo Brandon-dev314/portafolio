@@ -4,13 +4,13 @@
   <article class="grid lg:grid-cols-5 gap-8">
     <div class="lg:col-span-3">
       {% if project.cover %}
-        <img class="w-full rounded border" src="{{ project.cover.url }}" alt="{{ project.title }}" />
+        <img class="w-full rounded border" src="{{ project.cover }}" alt="{{ project.title }}" />
       {% endif %}
       {% if project.images.exists %}
         <div class="mt-4 grid grid-cols-3 gap-2">
           {% for img in project.images.all %}
             <img class="w-full h-24 object-cover rounded border"
-                src="{{ img.image.url }}"
+                src="{{ img.image }}"
                 alt="{{ img.caption|default:project.title }}" />
           {% endfor %}
         </div>
@@ -43,7 +43,7 @@
       {% for p in related %}
       <a class="rounded-lg overflow-hidden border bg-white hover:shadow" href="{% url 'project_detail' p.slug %}">
         {% if p.cover %}
-          <img class="w-full h-32 object-cover" src="{{ p.cover.url }}" alt="{{ p.title }}" />
+          <img class="w-full h-32 object-cover" src="{{ p.cover }}" alt="{{ p.title }}" />
         {% endif %}
         <div class="p-3">
           <div class="font-medium">{{ p.title }}</div>

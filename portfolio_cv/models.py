@@ -18,7 +18,7 @@ class Project(models.Model):
     slug = models.SlugField(max_length=160, unique=True, blank=True)
     short_description = models.CharField(max_length=220)
     description = models.TextField(blank=True)
-    cover = models.ImageField(upload_to='projects/covers/', blank=True)
+    cover = models.URLField(help_text="URL del GIF animado", blank = True)
     repo_url = models.URLField(blank=True)
     demo_url = models.URLField(blank=True)
     tags = models.ManyToManyField(Tag, blank=True, related_name='projects')
@@ -39,7 +39,7 @@ class Project(models.Model):
 
 class ProjectImage(models.Model):
     Project = models.ForeignKey(Project,on_delete=models.CASCADE,related_name='images')
-    image = models.ImageField(upload_to='projects/gallery/')
+    image = models.URLField(help_text="URL del GIF animado", blank=True)
     caption = models.CharField(max_length=200, blank=True)
 
     def __str__(self):
@@ -49,7 +49,7 @@ class Experience(models.Model):
     role = models.CharField(max_length=120)                 # p.ej. "Data Scientist Jr"
     company = models.CharField(max_length=120)              # p.ej. "Nexu"
     company_url = models.URLField(blank=True)
-    company_logo = models.ImageField(upload_to='companies/', blank=True, null=True)
+    image_url = models.URLField(help_text="URL del GIF animado", blank=True)
     location = models.CharField(max_length=120, blank=True) # p.ej. "CDMX (remoto)"
     start_date = models.DateField()                          # p.ej. 2024-03-01
     end_date = models.DateField(blank=True, null=True)       # null = “Actual”
