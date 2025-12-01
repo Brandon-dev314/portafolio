@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'portfolio_site.wsgi.application'
 
 # Base de datos (Amazon RDS)
 DATABASES = {
-    'default': dj_database_url.config(default='postgres://rutinas_usuario:Entrena.facil89@mi-rutinas-db.c9oo0wma279n.us-east-2.rds.amazonaws.com:5432/mirutinasdb')
+    'default': dj_database_url.config()
 }
 
 
