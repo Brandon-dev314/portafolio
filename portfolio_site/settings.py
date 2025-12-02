@@ -75,7 +75,7 @@ WSGI_APPLICATION = 'portfolio_site.wsgi.application'
 
 # Base de datos (Amazon RDS)
 DATABASES = {
-    'default': dj_database_url.config()
+    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
 }
 
 
